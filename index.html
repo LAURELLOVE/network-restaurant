@@ -103,11 +103,38 @@ footer a{color:var(--mustard)}
 :root[data-theme="dark"] .bar .btn-book{background:var(--mustard);color:#1E2224}
 @media (min-width:820px){.bar{display:none}body{padding-bottom:0}}
 .wa-row{padding-top:26px}
+
+.nav{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:18px;min-height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none;font-size:18px}
+.logo i{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--mustard);color:#1E2224;font:800 20px Georgia,serif;font-style:normal}
+.nav-links{display:flex;margin-left:auto;gap:20px}
+.nav-links a{text-decoration:none;font-weight:600;font-size:15px;color:var(--muted)}
+.nav-links a:hover{color:var(--ink)}
+.nav .nav-cta{display:none;min-height:42px;padding:0 18px;font-size:15px;background:var(--mustard);color:#1E2224}
+@media (min-width:820px){.nav .nav-cta{display:inline-flex}}
+@media (max-width:819px){.nav-links{gap:14px}.nav-links a:nth-child(n+3){display:none}.logo span{font-size:16px}}
+.ic{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;background:rgba(128,128,128,.16);font-size:22px;margin-bottom:10px}
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line);padding:16px 0;max-width:760px}
+.faq summary{cursor:pointer;font-weight:700;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-size:24px;line-height:1;color:var(--mustard)}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:10px 0 0;color:var(--muted)}
+.map{margin-top:26px;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.map iframe{display:block;width:100%;height:320px;border:0}
+.map-note{font-size:14px;color:var(--muted);margin:8px 0 0}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+section[id]{scroll-margin-top:70px}
 </style>
 </head>
 <body>
 
 <div class="demo">Sample website made for Network Restaurant &amp; Lounge by <strong>PrimeiT Solutions</strong></div>
+<nav class="nav" aria-label="Main"><div class="wrap"><a class="logo" href="#top"><i>N</i><span>Network Restaurant &amp; Lounge</span></a><div class="nav-links"><a href="#top2">Why us</a><a href="#menu">Menu</a><a href="#book">Book</a><a href="#find">Find us</a></div><a class="btn nav-cta" href="#book">Book a table</a></div></nav>
+<span id="top"></span>
 
 <header class="hero">
   <div class="hero-photo">
@@ -133,7 +160,7 @@ footer a{color:var(--mustard)}
 </header>
 
 <main>
-  <section>
+  <section id="top2">
     <div class="wrap">
       <h2>Why people keep coming back</h2>
       <p class="lead">Local favourites and international plates, served late in one of Molyko’s most relaxed spaces.</p>
@@ -184,7 +211,8 @@ footer a{color:var(--mustard)}
     </div>
   </section>
 
-  <section class="find">
+  <section class="faq" id="faq"><div class="wrap"><h2>Questions</h2><details><summary>Can I book a table online?</summary><p>Yes. Fill in the booking form on this page and send it on WhatsApp. We confirm on WhatsApp.</p></details><details><summary>Can I order food to take away?</summary><p>Tap "Order on WhatsApp" and send us your order. We reply to confirm.</p></details><details><summary>Where are you?</summary><p>In Molyko, Buea. Open the map below for directions.</p></details></div></section>
+<section class="find" id="find">
     <div class="wrap">
       <h2>Find us</h2>
       <div class="find-grid">
@@ -193,7 +221,8 @@ footer a{color:var(--mustard)}
         <div><h3>Directions</h3><p><a href="https://www.google.com/maps/search/?api=1&amp;query=Network+Restaurant+%26+Lounge+Molyko+Buea" target="_blank" rel="noopener">Open in Google Maps</a></p></div>
       </div>
     </div>
-  <div class="wrap wa-row"><a class="btn btn-wa wa-link" href="#" data-msg="Hello Network Restaurant, I have a question about: Find us.">Chat on WhatsApp</a></div>
+  <div class="wrap"><div class="map"><iframe title="Map of Molyko, Buea" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=9.261700000000001,4.1336,9.3217,4.1735999999999995&amp;layer=mapnik&amp;marker=4.1536,9.2917"></iframe></div><p class="map-note">Map shows the general area. <a href="https://www.google.com/maps/search/Network+Restaurant+and+Lounge+Molyko,+Buea" target="_blank" rel="noopener">Open in Google Maps</a>.</p></div>
+<div class="wrap wa-row"><a class="btn btn-wa wa-link" href="#" data-msg="Hello Network Restaurant, I have a question about: Find us.">Chat on WhatsApp</a></div>
 </section>
 </main>
 
@@ -262,6 +291,11 @@ document.querySelectorAll(".wa-link").forEach((a) => {
   a.href = waLink(a.dataset.msg);
   a.target = "_blank"; a.rel = "noopener";
 });
+
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold: .1});
+  document.querySelectorAll("main section > .wrap, main section > div").forEach((el) => { el.classList.add("reveal"); io.observe(el); });
+}
 </script>
 </body>
 </html>
