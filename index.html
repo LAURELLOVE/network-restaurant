@@ -102,6 +102,7 @@ footer a{color:var(--mustard)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bar .btn-book{background:var(--mustard);color:#1E2224}}
 :root[data-theme="dark"] .bar .btn-book{background:var(--mustard);color:#1E2224}
 @media (min-width:820px){.bar{display:none}body{padding-bottom:0}}
+.wa-row{padding-top:26px}
 </style>
 </head>
 <body>
@@ -142,7 +143,8 @@ footer a{color:var(--mustard)}
         <div><h3>Great cocktails</h3><p>Classic and house mixes, poured until late.</p></div>
       </div>
     </div>
-  </section>
+  <div class="wrap wa-row"><a class="btn btn-wa wa-link" href="#" data-msg="Hello Network Restaurant, I have a question about: Why people keep coming back.">Chat on WhatsApp</a></div>
+</section>
 
   <section class="menu" id="menu">
     <div class="wrap">
@@ -156,7 +158,8 @@ footer a{color:var(--mustard)}
       <ul class="dishes" id="dishes" role="tabpanel" aria-live="polite"></ul>
       <p class="note">Sample menu for this demo. Your real dishes and prices go here.</p>
     </div>
-  </section>
+  <div class="wrap wa-row"><a class="btn btn-wa wa-link" href="#" data-msg="Hello Network Restaurant, I have a question about: Menu.">Chat on WhatsApp</a></div>
+</section>
 
   <section id="book">
     <div class="wrap book-grid">
@@ -190,7 +193,8 @@ footer a{color:var(--mustard)}
         <div><h3>Directions</h3><p><a href="https://www.google.com/maps/search/?api=1&amp;query=Network+Restaurant+%26+Lounge+Molyko+Buea" target="_blank" rel="noopener">Open in Google Maps</a></p></div>
       </div>
     </div>
-  </section>
+  <div class="wrap wa-row"><a class="btn btn-wa wa-link" href="#" data-msg="Hello Network Restaurant, I have a question about: Find us.">Chat on WhatsApp</a></div>
+</section>
 </main>
 
 <footer>
@@ -252,6 +256,11 @@ document.getElementById("bookForm").addEventListener("submit", e => {
   const note = document.getElementById("bNote").value.trim();
   const msg = `Hello Network Restaurant & Lounge, I’d like to book a table.\nName: ${name}\nDate: ${date}\nTime: ${time}\nGuests: ${document.getElementById("bGuests").value}\nSeating: ${document.getElementById("bSeat").value}` + (note ? `\nNote: ${note}` : "");
   window.open(waLink(msg), "_blank", "noopener");
+});
+
+document.querySelectorAll(".wa-link").forEach((a) => {
+  a.href = waLink(a.dataset.msg);
+  a.target = "_blank"; a.rel = "noopener";
 });
 </script>
 </body>
